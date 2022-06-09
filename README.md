@@ -9,6 +9,7 @@
 ### GUI library
 
 - Looking at Druid right now. Or maybe QT bindings
+- Maybe check out iced
 
 ### Emulation
 
