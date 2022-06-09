@@ -1,16 +1,67 @@
-use::std;
+use std::io;
+use std::path::Path;
+use std::io::{ Read, BufReader };
+use std::fs::File;
 
 pub struct Loader {
-    file: String,
+    filename: String,
+    filecontents: Vec <u8>
 }
 
 impl Loader {
-    pub fn new(to_load: String) -> Loader {
-        println!("Loader will attempt to load: {}", to_load);
-        return Loader { file: to_load };
+    pub fn new() -> Loader {
+        println!("Enter the file you would like to load");
+
+        let mut filename = String::new();
+        match io::stdin().read_line(&mut filename) {
+            Ok(_n) => {
+                //println!("{n} bytes read");
+                //println!("\"{filename}\"");
+            }
+            Err(error) => println!("error: {error}"),
+        }
+
+        let len = filename.len();
+        filename.truncate(len - 1);
+        println!("\"{filename}\"");
+
+        // Create a path to the desired file
+        let path = Path::new(&filename);
+        let display = path.display();
+
+        // Open the path in read-only mode, returns `io::Result<File>`
+        let mut file = match File::open(&path) {
+            Err(why) => panic!("couldn't open {}: {}", display, why),
+            Ok(file) => file,
+        };
+
+        let mut reader = BufReader::new(file);
+        let mut buffer = Vec::new();
+
+        // Read file into vector.
+        reader.read_to_end(&mut buffer);
+
+        // Read.
+        // for value in buffer {
+        //     println!("BYTE: {}", value);
+        // };
+
+        return Loader {
+            filename: filename,
+            filecontents: buffer
+         };
     }
 
-    pub fn file(&self) -> &String {
-        &self.file
+    pub fn filename(&self) -> &String {
+        &self.filename
+    }
+
+    pub fn filecontents(&self) -> &Vec<u8> {
+        &self.filecontents
+    }
+
+    pub fn show_debug(&self) -> () {
+        println!("filename -> {}", &self.filename);
+        println!("filecontents -> {:#?}", &self.filecontents);
     }
 }
