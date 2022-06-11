@@ -17,4 +17,10 @@
 
 ## TODO List
 
-- [ ] Make todo list
+- [ ] CLI REPL
+ - [ ] Make this tool 'cli' based
+ - [ ] Make it REPL to try and run different commands
+- [ ] Loader
+ - [ ] Attempt to load file and show outcome/error
+ - [ ] Recall previously loaded file/location
+ - [ ] Upon good load, be able to do a dump of the rom with formatting
