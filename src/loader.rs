@@ -10,6 +10,13 @@ pub struct Loader {
 
 impl Loader {
     pub fn new() -> Loader {
+        Loader {
+            filename:String::from("new loader"),
+            filecontents: vec![]
+        }
+    }
+
+    pub fn load(&mut self) -> i32 {
         println!("Enter the file you would like to load");
 
         let mut filename = String::new();
@@ -18,7 +25,10 @@ impl Loader {
                 //println!("{n} bytes read");
                 //println!("\"{filename}\"");
             }
-            Err(error) => println!("error: {error}"),
+            Err(error) => {
+                println!("error: {error}");
+                return -1;
+            },
         }
 
         let len = filename.len();
@@ -45,11 +55,10 @@ impl Loader {
         // for value in buffer {
         //     println!("BYTE: {}", value);
         // };
+        self.filename=filename;
+        self.filecontents=buffer;
 
-        return Loader {
-            filename: filename,
-            filecontents: buffer
-         };
+        return 0;
     }
 
     pub fn filename(&self) -> &String {
